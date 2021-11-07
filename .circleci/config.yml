@@ -31,9 +31,6 @@ commands:
       - run:
           name: rubocop
           command: bundle exec rubocop
-      - run:
-          name: fasterer
-          command: bundle exec fasterer
   run_specs:
     steps:
       - run:
@@ -44,9 +41,6 @@ commands:
             bundle exec rspec --format progress \
                               --out /tmp/test-results/rspec.xml \
                               $TEST_FILES
-      - store_artifacts:
-          path: ~/repo/coverage
-          destination: coverage
 
 jobs:
   lintering:
