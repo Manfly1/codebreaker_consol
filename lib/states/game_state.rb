@@ -8,9 +8,7 @@ class GameState < ConsoleState
 
   def play_game
     loop do
-      puts I18n.t(:ask_guess, length: CODE_LENGTH, min: DIGIT_MIN_MAX[0],
-                              max: DIGIT_MIN_MAX[-1], hint: COMMANDS[:hint],
-                              exit: COMMANDS[:exit])
+      puts I18n.t('game.ask_guess', length: CODE_LENGTH, min: DIGIT_MIN_MAX[0], max: DIGIT_MIN_MAX[-1], hint: COMMANDS[:hint], exit: COMMANDS[:exit])
       input = $stdin.gets.chomp
 
       menu(input)
@@ -22,7 +20,7 @@ class GameState < ConsoleState
   end
 
   def menu(input)
-    return puts I18n.t(:take_hint, hint: @console.game.take_hint) if input == COMMANDS[:hint]
+    return puts I18n.t('game.show_hint', hint: @console.game.take_hint) if input == COMMANDS[:hint]
 
     input == COMMANDS[:exit] ? (raise Console::StopGame) : guess_handler(input)
 
@@ -30,9 +28,9 @@ class GameState < ConsoleState
   end
 
   def guess_handler(input)
-    puts I18n.t(:your_guess_is, guess: input)
+    puts I18n.t('game.your_guess_is', guess: input)
     @console.game.guess(input)
-    puts I18n.t(:show_clues, clues: show_fancy_clues)
+    puts I18n.t('game.show_clues', clues: show_fancy_clues)
   end
 
   def show_fancy_clues

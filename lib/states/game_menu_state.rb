@@ -2,7 +2,7 @@
 
 class GameMenuState < ConsoleState
   def interact
-    puts I18n.t(:introduction)
+    puts I18n.t('menu.introduction')
     choose_from_menu
   rescue Console::StopGame
     puts I18n.t(:bye_bye)
@@ -10,7 +10,7 @@ class GameMenuState < ConsoleState
 
   def choose_from_menu
     loop do
-      puts I18n.t(:game_menu_options)
+      puts I18n.t('menu.game_menu_options')
       input = $stdin.gets.chomp.downcase
       menu(input)
     rescue CodebreakerManflyy::Validation::GameError => e
@@ -22,7 +22,7 @@ class GameMenuState < ConsoleState
   def menu(input)
     case input
     when COMMANDS[:start] then change_state_to(:registration_state)
-    when COMMANDS[:rules] then puts I18n.t(:rules)
+    when COMMANDS[:rules] then puts I18n.t('menu.rules')
     when COMMANDS[:stats] then puts @console.statistics
     else handle_exit_or_unexpected(input, method(:choose_from_menu))
     end
