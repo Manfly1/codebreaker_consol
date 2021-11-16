@@ -6,7 +6,7 @@ RSpec.describe GameMenuState do
   let(:console) { Console.new }
 
   describe '#interact' do
-    let(:message) { I18n.t(:introduction) }
+    let(:message) { I18n.t('menu.introduction') }
 
     context 'when starting interraction' do
       it do
@@ -33,7 +33,7 @@ RSpec.describe GameMenuState do
     context 'when input is "rules"' do
       let(:input) { commands[:rules] }
 
-      it { expect { menu_state.menu(input) }.to output(I18n.t(:rules)).to_stdout }
+      it { expect { menu_state.menu(input) }.to output(I18n.t('menu.rules')).to_stdout }
     end
 
     context 'when input is "stats" and stats are empty' do

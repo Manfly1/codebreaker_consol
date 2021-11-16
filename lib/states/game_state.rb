@@ -8,7 +8,8 @@ class GameState < ConsoleState
 
   def play_game
     loop do
-      puts I18n.t('game.ask_guess', length: CODE_LENGTH, min: DIGIT_MIN_MAX[0], max: DIGIT_MIN_MAX[-1], hint: COMMANDS[:hint], exit: COMMANDS[:exit])
+      puts I18n.t('game.ask_guess', length: CODE_LENGTH, min: DIGIT_MIN_MAX[0], max: DIGIT_MIN_MAX[-1],
+                                    hint: COMMANDS[:hint], exit: COMMANDS[:exit])
       input = $stdin.gets.chomp
 
       menu(input)
