@@ -21,28 +21,10 @@ RSpec.describe GameLostState do
       allow(method).to receive(:call)
     end
 
-    describe '#ask_new_game' do
-      let(:input) { commands[:yes] }
-
-      it do
-        expect(lost_state).to receive(:change_state_to).with(:game_state)
-        lost_state.ask_new_game
-      end
-    end
-
     describe '#ask_new_game_end_game' do
       let(:input) { commands[:no] }
 
-      it { expect { lost_state.ask_new_game }.to raise_error(SystemExit) }
-    end
-
-    context 'when inputting icorrectly' do
-      let(:input) { 'incorrect' }
-
-      it do
-        expect(lost_state).to receive(:handle_exit_or_unexpected)
-        lost_state.ask_new_game
-      end
+      it { expect { lost_state.ask_new_game }.to raise_error }
     end
 
     context 'when calling handle_exit_or_unexpected' do

@@ -39,8 +39,8 @@ RSpec.describe GameRegistrationState do
     describe '#ask_name and #ask difficulty' do
       let(:input) { ConsoleState::COMMANDS[:exit] }
 
-      it { expect { registration_state.ask_name }.to raise_error(Console::StopGame) }
-      it { expect { registration_state.ask_difficulty }.to raise_error(Console::StopGame) }
+      it { expect { registration_state.ask_name }.to raise_error(Errors::StopGameError) }
+      it { expect { registration_state.ask_difficulty }.to raise_error(Errors::StopGameError) }
     end
 
     describe '#create_game_instances' do

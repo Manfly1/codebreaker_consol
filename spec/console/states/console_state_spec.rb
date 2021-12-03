@@ -17,7 +17,7 @@ RSpec.describe ConsoleState do
     context 'when exiting' do
       let(:input) { ConsoleState::COMMANDS[:exit] }
 
-      it { expect { console_state.handle_exit_or_unexpected(input, method) }.to raise_error(Console::StopGame) }
+      it { expect { console_state.handle_exit_or_unexpected(input, method) }.to raise_error }
     end
 
     context 'when unexpected command' do

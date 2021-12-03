@@ -6,6 +6,8 @@ class GameLostState < ConsoleState
     ask_new_game
   end
 
+  private
+
   def ask_new_game
     puts I18n.t('won_or_lost.ask_new_game')
     input = $stdin.gets.chomp.downcase

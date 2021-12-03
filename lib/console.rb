@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Console
-  class StopGame < StandardError; end
-
   include Statistics
 
   attr_reader :user, :game, :state

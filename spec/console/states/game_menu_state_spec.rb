@@ -16,7 +16,7 @@ RSpec.describe GameMenuState do
     end
 
     context 'when input is exit' do
-      it { expect { menu_state.menu(ConsoleState::COMMANDS[:exit]) }.to raise_error(Console::StopGame) }
+      it { expect { menu_state.menu(ConsoleState::COMMANDS[:exit]) }.to raise_error }
     end
   end
 

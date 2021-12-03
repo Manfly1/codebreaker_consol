@@ -4,7 +4,7 @@ class GameMenuState < ConsoleState
   def interact
     puts I18n.t('menu.introduction')
     choose_from_menu
-  rescue Console::StopGame
+  rescue Errors::StopGameError
     puts I18n.t(:bye_bye)
   end
 

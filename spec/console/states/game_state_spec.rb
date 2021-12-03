@@ -22,7 +22,7 @@ RSpec.describe GameState do
     let(:input) { ConsoleState::COMMANDS[:hint] }
 
     it 'stops the game' do
-      expect { game_state.menu(ConsoleState::COMMANDS[:exit]) }.to raise_error(Console::StopGame)
+      expect { game_state.menu(ConsoleState::COMMANDS[:exit]) }.to raise_error(Errors::StopGameError)
     end
 
     it 'calles guess_handler' do
