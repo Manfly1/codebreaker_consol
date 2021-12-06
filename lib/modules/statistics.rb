@@ -16,6 +16,6 @@ module Statistics
   end
 
   def load_data
-    CodebreakerManflyy::Storage.new.load
+    CodebreakerManflyy::FileLoader.new.load
   end
 end

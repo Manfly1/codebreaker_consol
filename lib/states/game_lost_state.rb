@@ -2,7 +2,7 @@
 
 class GameLostState < ConsoleState
   def interact
-    puts I18n.t('won_or_lost.game_lost', code: @console.game.secret_code)
+    puts I18n.t('won_or_lost.game_lost', code: @console.game.very_secret_code)
     ask_new_game
   end
 
