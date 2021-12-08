@@ -31,7 +31,7 @@ class ConsoleState
   end
 
   def handle_exit_or_unexpected(input, method)
-    raise Errors::StopGame if input == COMMANDS[:exit]
+    raise Errors::StopGameError if input == COMMANDS[:exit]
 
     puts I18n.t(:unexpected_command)
     method.call
