@@ -8,6 +8,8 @@ class GameMenuState < ConsoleState
     puts I18n.t(:bye_bye)
   end
 
+  private
+
   def choose_from_menu
     loop do
       puts I18n.t('menu.game_menu_options')

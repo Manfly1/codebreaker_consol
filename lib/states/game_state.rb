@@ -6,6 +6,8 @@ class GameState < ConsoleState
     play_game
   end
 
+  private
+
   def play_game
     loop do
       puts I18n.t('game.ask_guess', length: CODE_LENGTH, min: DIGIT_MIN_MAX[0], max: DIGIT_MIN_MAX[-1],

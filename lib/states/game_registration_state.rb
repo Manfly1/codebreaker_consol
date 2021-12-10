@@ -9,6 +9,8 @@ class GameRegistrationState < ConsoleState
     retry
   end
 
+  private
+
   def create_game_instances
     @console.create_user(name: ask_name) unless @console.user
     @console.create_game(difficulty: ask_difficulty)

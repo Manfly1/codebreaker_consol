@@ -7,13 +7,14 @@ RSpec.describe GameLostState do
   let(:method) { instance_double('Method') }
 
   describe '#interact' do
-    it do
-      console.create_game(difficulty: ConsoleState::DIFFICULTY_NAMES[:hell])
-      allow(lost_state).to receive(:ask_new_game)
+    context 'success' do
+      it 'change state' do
+        console.create_game(difficulty: ConsoleState::DIFFICULTY_NAMES[:hell])
+        allow(lost_state).to receive(:ask_new_game)
+      end
     end
   end
-
-  context 'with user input' do
+  context 'false' do
     let(:commands) { ConsoleState::COMMANDS }
 
     before do
@@ -21,13 +22,7 @@ RSpec.describe GameLostState do
       allow(method).to receive(:call)
     end
 
-    describe '#ask_new_game_end_game' do
-      let(:input) { commands[:no] }
-
-      it { expect { lost_state.ask_new_game }.to raise_error }
-    end
-
-    context 'when calling handle_exit_or_unexpected' do
+    context 'close app' do
       let(:input) { 'incorrect' }
       let(:message) { I18n.t(:unexpected_command) }
 

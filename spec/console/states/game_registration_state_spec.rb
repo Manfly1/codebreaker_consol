@@ -14,53 +14,6 @@ RSpec.describe GameRegistrationState do
     end
   end
 
-  describe '#create_game_instances' do
-    before do
-      allow(console).to receive(:create_user)
-      allow(console).to receive(:create_game)
-    end
-
-    after { registration_state.create_game_instances }
-
-    it 'calls ask_name' do
-      allow(registration_state).to receive(:ask_difficulty)
-      expect(registration_state).to receive(:ask_name)
-    end
-
-    it 'calls ask_difficulty' do
-      allow(registration_state).to receive(:ask_name)
-      expect(registration_state).to receive(:ask_difficulty)
-    end
-  end
-
-  describe 'with inputs' do
-    before { allow($stdin).to receive(:gets).and_return(*input) }
-
-    describe '#ask_name and #ask difficulty' do
-      let(:input) { ConsoleState::COMMANDS[:exit] }
-
-      it { expect { registration_state.ask_name }.to raise_error(Errors::StopGameError) }
-      it { expect { registration_state.ask_difficulty }.to raise_error(Errors::StopGameError) }
-    end
-
-    describe '#create_game_instances' do
-      let(:input) { 'f' * (CodebreakerManflyy::User::NAME_LENGTH.min - 1) }
-
-      it {
-        expect do
-          registration_state.create_game_instances
-        end.to raise_error(CodebreakerManflyy::Validation::InvalidName)
-      }
-
-      it 'raises UnknownDifficulty error' do
-        allow(console).to receive(:create_user).with(name: input)
-        expect do
-          registration_state.create_game_instances
-        end.to raise_error(CodebreakerManflyy::Validation::UnknownDifficulty)
-      end
-    end
-  end
-
   context 'when changing the state' do
     let(:name) { 'a' * CodebreakerManflyy::User::NAME_LENGTH.min }
     let(:difficulty) { ConsoleState::DIFFICULTY_NAMES[:easy] }

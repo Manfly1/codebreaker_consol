@@ -24,7 +24,7 @@ RSpec.describe GameWonState do
       allow(method).to receive(:call)
     end
 
-    context 'when saving the game' do
+    context 'success' do
       let(:input) { commands[:yes] }
 
       before do
@@ -34,40 +34,7 @@ RSpec.describe GameWonState do
       end
     end
 
-    context 'when inputting icorrectly while saving' do
-      let(:input) { 'incorrect' }
-
-      it do
-        expect(won_state).to receive(:handle_exit_or_unexpected)
-        won_state.ask_save_game
-      end
-    end
-
-    describe '#ask_new_game' do
-      let(:input) { commands[:yes] }
-
-      it do
-        expect(won_state).to receive(:change_state_to).with(:game_state)
-        won_state.ask_new_game
-      end
-    end
-
-    describe '#ask_new_game_end_game' do
-      let(:input) { commands[:no] }
-
-      it { expect { won_state.ask_new_game }.to raise_error(SystemExit) }
-    end
-
-    context 'when inputting icorrectly' do
-      let(:input) { 'incorrect' }
-
-      it do
-        expect(won_state).to receive(:handle_exit_or_unexpected)
-        won_state.ask_new_game
-      end
-    end
-
-    describe '#handle_exit_or_unexpected' do
+    context 'false' do
       let(:input) { 'incorrect' }
       let(:message) { I18n.t(:unexpected_command) }
 
