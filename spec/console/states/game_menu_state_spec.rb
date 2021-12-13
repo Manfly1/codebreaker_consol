@@ -21,9 +21,4 @@ RSpec.describe GameMenuState do
       it { expect { menu_state.menu(ConsoleState::COMMANDS[:exit]) }.to raise_error }
     end
   end
-
-  describe '#choose_from_menu' do
-    after { menu_state.interact }
-    it { expect(menu_state).to receive(:choose_from_menu) }
-  end
 end
