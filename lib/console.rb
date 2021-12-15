@@ -6,11 +6,11 @@ class Console
   attr_reader :user, :game, :state
 
   STATES = {
-    menu_state: GameMenuState,
-    registration_state: GameRegistrationState,
-    game_state: GameState,
-    won_state: GameWonState,
-    lost_state: GameLostState
+    menu_state: States::MenuState,
+    registration_state: States::RegistrationState,
+    game_state: States::GameState,
+    won_state: States::WonState,
+    lost_state: States::LostState
   }.freeze
 
   FANCY_CLUES = {

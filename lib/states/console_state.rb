@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+module States
 class ConsoleState
   COMMANDS = {
     exit: 'exit',
@@ -44,4 +44,5 @@ class ConsoleState
   def interact
     raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
   end
+end
 end

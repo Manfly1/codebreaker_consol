@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ConsoleState do
+RSpec.describe States::ConsoleState do
   subject(:console_state) { described_class.new(console) }
 
   let(:console) { Console.new }

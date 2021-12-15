@@ -5,64 +5,47 @@ RSpec.describe Console do
 
   let(:code) { [4, 4, 4, 4] }
   let(:name) { 'a' * CodebreakerManflyy::User::NAME_LENGTH.min }
-  let(:start) { ConsoleState::COMMANDS[:start] }
-  let(:exit) { ConsoleState::COMMANDS[:exit] }
-  let(:yes) { ConsoleState::COMMANDS[:yes] }
-  let(:no)  { ConsoleState::COMMANDS[:no] }
-  let(:hint) { ConsoleState::COMMANDS[:hint] }
+  let(:start) { States::ConsoleState::COMMANDS[:start] }
+  let(:exit) { States::ConsoleState::COMMANDS[:exit] }
+  let(:yes) { States::ConsoleState::COMMANDS[:yes] }
+  let(:no)  { States::ConsoleState::COMMANDS[:no] }
+  let(:hint) { States::ConsoleState::COMMANDS[:hint] }
+  let(:won_state) { instance_double(States::WonState) }
+  let(:lost_state) { instance_double(States::LostState) }
+  let(:entered_code) { '1111' }
 
-  before { allow($stdin).to receive(:gets).and_return(*input) }
-
-  context 'when play' do
-    let(:difficulty) { ConsoleState::DIFFICULTY_NAMES[:easy] }
-    let(:total_attempts) { CodebreakerManflyy::Game::DIFFICULTIES[:easy][:attempts] }
-    let(:hints_total) { CodebreakerManflyy::Game::DIFFICULTIES[:easy][:hints] }
 
     before do
+      allow(console).to receive(:puts)
+      allow(console).to receive(:handle_exit_or_unexpected).and_return(entered_code)
+      allow(States::WonState).to receive(:new).and_return(results_state)
       allow_any_instance_of(CodebreakerManflyy::Game).to receive(:generate_random_code).and_return(code)
       console.interact
     end
 
-    context 'when win and was not saved' do
-      let(:name2) { 'b' * CodebreakerManflyy::User::NAME_LENGTH.min }
-      let(:input) { [start, name2, difficulty, code.join, no, exit] }
-    end
-  end
+  describe 'when changing states' do
 
-  context 'when changing states' do
-    let(:difficulty) { ConsoleState::DIFFICULTY_NAMES[:hell] }
-    let(:total_attempts) { CodebreakerManflyy::Game::DIFFICULTIES[:easy][:attempts] }
-    let(:hints_total) { CodebreakerManflyy::Game::DIFFICULTIES[:easy][:hints] }
+    context 'when move to Registration State' do
 
-    context 'when move to Game Registration State' do
-      let(:input) { [start, exit] }
-
-      it 'changes to GameRegistrationState' do
+      it 'changes to RegistrationState' do
         allow(console.state).to receive(:interact)
       end
     end
-
-    context 'when move to GameState' do
-      let(:input) { [start, name, difficulty, exit] }
-
-      it 'changes to GameRegistrationState' do
-        allow(console.state).to receive(:interact)
+ 
+      it 'moves to won state if user has won' do
+        allow(game).to receive(:won?).and_return(true)
+        console.interact
+        expect(context).to have_received(:change_state_to).with(won_state)
       end
-    end
 
-    context 'when move to LostState' do
-      let(:wrong_guess) { CodebreakerManflyy::Game::DIFFICULTIES[:hell][:attempts].times.map { '1111' } }
-      let(:input) { [start, name, difficulty, wrong_guess, exit].flatten }
-
-      it 'changes to GameLostState' do
-        allow(console.state).to receive(:interact)
+      it 'moves to lost state if user has lost' do
+        allow(game).to receive(:lose?).and_return(true)
+        console.interact
+        expect(context).to have_received(:change_state_to).with(lost_state)
       end
-    end
 
     context 'when move from LostState to GameState' do
       let(:wrong_guess) { CodebreakerManflyy::Game::DIFFICULTIES[:hell][:attempts].times.map { '1111' } }
-      let(:input) { [start, name, difficulty, wrong_guess, yes, exit].flatten }
-
       it 'changes to GameState' do
         allow(console.state).to receive(:interact)
       end

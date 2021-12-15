@@ -3,7 +3,7 @@ en:
 
   bye_bye: "\nBye-bye"
 
-  menu:
+  menu_state:
     rules: "\n===============RULES==============
   
       - Codebreaker is a logic game in which a code-breaker tries to break a secret code created by a code-maker. The codemaker, which will be played by the application we’re going to write, creates a secret code of four numbers between 1 and 6.
@@ -29,7 +29,7 @@ en:
         \nstats -- 
         \nexit -- \n"
 
-  registration:
+  registration_state:
     ask_user_name: "\nPlease enter name\n"
     
     ask_difficulty: "\nChoose difficulty!
@@ -38,15 +38,18 @@ en:
         \n%{hard}
         \n"
         
-  game:
+  game_state:
     ask_guess: "Enter %{length} digits from %{min} to %{max}, take %{hint}, or press %{exit}"
     your_guess_is: "Your guess is: %{guess}"
     show_clues: "%{clues}"
     show_hint: "The hint is: %{hint}"
     used_all_hints: "You've used all your hints"
 
-  won_or_lost:
+  won_state:
     game_won: "Well played! The code was: %{code}"
-    game_lost: "You lost! The code was: %{code}"
     ask_save_game: "Wanna save your game? Yes/No"
+    ask_new_game: "Wanna start again? Yes/No"
+  
+  lost_state:
+    game_lost: "You lost! The code was: %{code}"
     ask_new_game: "Wanna start again? Yes/No"

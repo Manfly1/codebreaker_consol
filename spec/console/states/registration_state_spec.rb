@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe GameRegistrationState do
+RSpec.describe States::RegistrationState do
   describe '#interact' do
     subject(:state) { described_class.new }
 
-    let(:context) { instance_double(Console) }
+    let(:console) { instance_double(Console) }
     let(:game) { instance_double(CodebreakerManflyy::Game) }
 
     let(:valid_name) { 'a' * (CodebreakerManflyy::User) }
@@ -16,14 +16,14 @@ RSpec.describe GameRegistrationState do
 
     before do
 
-      allow(context).to receive(:change_state_to)
-      allow(context).to receive(:game).and_return(game)
+      allow(console).to receive(:change_state_to)
+      allow(console).to receive(:game).and_return(game)
       allow(game).to receive(:start_new_game)
     end
 
     it 'puts message to console' do
       allow(state).to receive(:gets).and_return(*valid_inputs)
-      expect { state.interact }.to output(/#{I18n.t('registration.ask_user_name')}/).to_stdout
+      expect { state.interact }.to output(/#{I18n.t('registration_state.ask_user_name')}/).to_stdout
     end
 
     it 'puts invalid name message to console if name is invalid' do
