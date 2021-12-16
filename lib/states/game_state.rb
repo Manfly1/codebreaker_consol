@@ -1,48 +1,38 @@
 # frozen_string_literal: true
+
 module States
-class GameState < ConsoleState
-  def interact
-    @console.game.start_new_game
-    play_game
-  end
+  class GameState < BaseState
+    HINT_COMMAND = I18n.t('game_state.hint_command')
 
-  private
+    def interact
+      puts(I18n.t('game_state.ask_guess', hint_command: HINT_COMMAND, exit_command: EXIT_COMMAND))
+      manage_command(user_input)
+      context.change_state_to(next_state)
+    end
 
-  def play_game
-    loop do
-      puts I18n.t('game_state.ask_guess', length: CODE_LENGTH, min: DIGIT_MIN_MAX[0], max: DIGIT_MIN_MAX[-1],
-                                    hint: COMMANDS[:hint], exit: COMMANDS[:exit])
-      input = $stdin.gets.chomp
+    private
 
-      menu(input)
+    def manage_command(command)
+      command == HINT_COMMAND ? give_hint : make_turn(command)
+    end
 
-    rescue CodebreakerManflyy::Validation::GameError => e
-      puts e.message
-      retry
+    def give_hint
+      if @context.game.hints_amount.positive?
+        puts(I18n.t('game_state.show_hint', digit: context.game.take_hint))
+      else
+        puts(I18n.t('game_state.used_all_hints'))
+      end
+    end
+
+    def make_turn(code)
+      guess = CodebrekerManfly::Guess.new(code)
+      return puts(I18n.t('base_state.wrong_command')) unless guess.valid?
+
+      puts(I18n.t('game_state.coincidence', match: context.game.make_turn(guess)))
+    end
+
+    def next_state
+      context.game.win? || context.game.lose? ? States::FinalState.new : self
     end
   end
-
-  def menu(input)
-    return puts I18n.t('game_state.show_hint', hint: @console.game.show_hint) if input == COMMANDS[:hint]
-
-    input == COMMANDS[:exit] ? (raise Errors::StopGameError) : guess_handler(input)
-
-    change_state_if_won_or_lost
-  end
-
-  def guess_handler(input)
-    puts I18n.t('game_state.your_guess_is', guess: input)
-    @console.game.guess(input)
-    puts I18n.t('game_state.show_clues', clues: show_fancy_clues)
-  end
-
-  def show_fancy_clues
-    @console.game.clues.map { |clue| Console::FANCY_CLUES[clue] }.compact
-  end
-
-  def change_state_if_won_or_lost
-    change_state_to(:won_state) if @console.game.won?
-    change_state_to(:lost_state) if @console.game.lost?
-  end
-end
 end

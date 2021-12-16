@@ -1,48 +1,18 @@
 # frozen_string_literal: true
+
 module States
-class ConsoleState
-  COMMANDS = {
-    exit: 'exit',
-    start: 'start',
-    rules: 'rules',
-    stats: 'stats',
-    hint: 'hint',
-    yes: 'yes',
-    no: 'no'
-  }.freeze
+  class ConsoleState
+    attr_accessor :game
 
-  DIFFICULTIES = {
-    easy: 'Easy - 15 attempts, 2 hints',
-    medium: 'Medium - 10 attempts, 1 hint',
-    hell: 'Hell - 5 attempts, 1 hint'
-  }.freeze
+    def action
+      @context = States::Context.new
+      change_state_to(States::MenuState.new)
+    end
 
-  DIFFICULTY_NAMES = {
-    easy: 'easy',
-    medium: 'medium',
-    hell: 'hell'
-  }.freeze
-
-  CODE_LENGTH = 4
-  DIGIT_MIN_MAX = [1, 6].freeze
-
-  def initialize(console)
-    @console = console
+    def change_state_to(game_state)
+      @game_state = game_state
+      @game_state.context = self
+      @game_state.interact
+    end
   end
-
-  def handle_exit_or_unexpected(input, method)
-    raise Errors::StopGameError if input == COMMANDS[:exit]
-
-    puts I18n.t(:unexpected_command)
-    method.call
-  end
-
-  def change_state_to(state)
-    @console.change_state_to(state)
-  end
-
-  def interact
-    raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
-  end
-end
 end

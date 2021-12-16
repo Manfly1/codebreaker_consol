@@ -1,7 +1,9 @@
 en:
-  unexpected_command: "\nYou have passed unexpected command. Please choose one from listed commands\n"
-
-  bye_bye: "\nBye-bye"
+  base_state:
+    exit: "\nBye-bye"
+    exit_command: "exit"
+    apply: 'y'
+    wrong_command: "\nYou have passed unexpected command. Please choose one from listed commands\n"
 
   menu_state:
     rules: "\n===============RULES==============
@@ -19,37 +21,50 @@ en:
       - An empty space indicates that there is not a current digit in a secret number.
       - If codebreaker inputs the exact number as a secret number - codebreaker wins the game. If all attempts are spent - codebreaker loses.
       - Codebreaker also has some number of hints(depends on chosen difficulty). If a user takes a hint - he receives back a separate digit of the secret code.\n"
-
-    introduction: "\nCodebreaker Console Game
+    introduction: "\nCodebreaker Console Game\n
       Welcome to Codebreaker game!\n"
-    
-    game_menu_options: "\nMenu:
-        \nstart -- 
-        \nrules -- 
-        \nstats -- 
-        \nexit -- \n"
+    stats_body: |+
+      Rating: %{rating}
+      Name: %{name}
+      Difficulty: %{difficulty}
+      Attempts total: %{total_attempts}
+      Attempts used: %{used_attempts}
+      Hints total: %{total_hints}
+      Hints used: %{used_hints} 
+    start_command: 'start'
+    rules_command: 'rules'
+    stats_command: 'stats'
+    stats_title: "\nUser statistics\n\n"
+    stats_empty: "No saved statistic now\n\n"
+    game_menu_options: |+ 
+      Menu:
+      %{start}
+      %{rules}
+      %{stats}
+      %{exit}
 
   registration_state:
-    ask_user_name: "\nPlease enter name\n"
-    
-    ask_difficulty: "\nChoose difficulty!
-        \n%{easy}
-        \n%{medium}
-        \n%{hard}
-        \n"
+    user_name: "\nPlease enter name\n"
+    invalid_user_name: "\nInvalid name! Name length should be from 3 to 20 characters. Try again\n"
+    difficulty_message: "\nChoose difficulty: %{difficulties}\n"
+    invalid_difficulty_message: "\nInvalid difficulty! Choose difficulty from the listed\n\n"
+    easy_difficulty: 'easy'
+    medium_difficulty: 'medium'
+    hell_difficulty: 'hell'
         
   game_state:
-    ask_guess: "Enter %{length} digits from %{min} to %{max}, take %{hint}, or press %{exit}"
-    your_guess_is: "Your guess is: %{guess}"
-    show_clues: "%{clues}"
-    show_hint: "The hint is: %{hint}"
+    ask_guess: |+
+      Enter a guess (4-digit code)
+      Take a hint (enter '%{hint_command}')
+      Exit to menu (enter '%{exit_command}')
+    hint_command: "hint"
+    show_hint: "\nHint: %{digit}"
     used_all_hints: "You've used all your hints"
+    coincidence: "\ncoincidence: %{match}\n"
 
-  won_state:
+  final_state:
     game_won: "Well played! The code was: %{code}"
-    ask_save_game: "Wanna save your game? Yes/No"
-    ask_new_game: "Wanna start again? Yes/No"
-  
-  lost_state:
     game_lost: "You lost! The code was: %{code}"
-    ask_new_game: "Wanna start again? Yes/No"
+    ask_save_game: "Wanna save your game? y/n"
+    ask_new_game: "Wanna start again? y/n"
+  

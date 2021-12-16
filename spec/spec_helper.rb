@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-require_relative '../bootstrap'
+require_relative '../lib/bootstrap'
 
 require 'simplecov'
 require 'fileutils'
+require 'ffaker'
 
 SimpleCov.start do
   add_filter '/spec/'
-  minimum_coverage 93
+  minimum_coverage 95
 end
 
 Dir["#{Dir.pwd}/lib/**/*.rb"].sort.each { |f| require f }

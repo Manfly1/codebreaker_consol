@@ -1,33 +1,55 @@
 # frozen_string_literal: true
+
 module States
-class MenuState < ConsoleState
-  def interact
-    puts I18n.t('menu_state.introduction')
-    choose_from_menu
-  rescue Errors::StopGameError
-    puts I18n.t(:bye_bye)
-  end
+  class MenuState < BaseState
+    START_COMMAND = I18n.t('menu_state.start_command')
+    RULES_COMMAND = I18n.t('menu_state.rules_command')
+    STATS_COMMAND = I18n.t('menu_state.stats_command')
 
-  private
+    def interact
+      puts(I18n.t('menu_state.introduction'))
+      puts(I18n.t('menu_state.game_menu_options', start: START_COMMAND, rules: RULES_COMMAND, stats: STATS_COMMAND,
+                                                  exit: EXIT_COMMAND))
+      command = user_input
+      context.change_state_to(manage_command(command))
+    end
 
-  def choose_from_menu
-    loop do
-      puts I18n.t('menu_state.game_menu_options')
-      input = $stdin.gets.chomp.downcase
-      menu(input)
-    rescue CodebreakerManflyy::Validation::GameError => e
-      puts e.message
-      retry
+    private
+
+    def manage_command(command)
+      case command
+      when START_COMMAND then return States::RegistrationState.new
+      when RULES_COMMAND then puts(I18n.t('menu_state.rules'))
+      when STATS_COMMAND then put_statistic
+      else
+        puts I18n.t('base_state.wrong_command')
+      end
+
+      self
+    end
+
+    def put_statistic
+      puts(I18n.t('menu_state.stats_title'))
+
+      stats = CodebrekerManfly::Game.user_statistic
+      return puts(I18n.t('menu_state.stats_empty')) if stats.empty?
+
+      formated_stats = stats.map.with_index do |stat, index|
+        I18n.t('menu_state.stats_body', **stats_to_hash(index, stat))
+      end.join
+      puts(formated_stats)
+    end
+
+    def stats_to_hash(index, stat)
+      {
+        rating: index + 1,
+        name: stat.user.name,
+        difficulty: stat.difficulty.name,
+        total_attempts: stat.difficulty.attempts,
+        used_attempts: stat.attempts,
+        total_hints: stat.difficulty.hints,
+        used_hints: stat.hints
+      }
     end
   end
-
-  def menu(input)
-    case input
-    when COMMANDS[:start] then change_state_to(:registration_state)
-    when COMMANDS[:rules] then puts I18n.t('menu_state.rules')
-    when COMMANDS[:stats] then puts @console.statistics
-    else handle_exit_or_unexpected(input, method(:choose_from_menu))
-    end
-  end
-end
 end

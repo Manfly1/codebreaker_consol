@@ -1,31 +1,41 @@
 # frozen_string_literal: true
+
 module States
-class RegistrationState < ConsoleState
-  def interact
-    create_game_instances
-    change_state_to(:game_state)
-  rescue CodebreakerManflyy::Validation::GameError => e
-    puts e.message
-    retry
-  end
+  class RegistrationState < BaseState
+    def interact
+      ask_username
+      ask_difficulty
+      context.game = CodebrekerManfly::Game.new(@difficulty, @user)
+      context.game.start
+      context.change_state_to(States::GameState.new)
+    end
 
-  private
+    private
 
-  def create_game_instances
-    @console.create_user(name: ask_name) unless @console.user
-    @console.create_game(difficulty: ask_difficulty)
-  end
+    def ask_username
+      loop do
+        puts I18n.t('registration_state.user_name')
+        @user = CodebrekerManfly::User.new(user_input)
+        return if @user.valid?
 
-  def ask_name
-    puts I18n.t('registration_state.ask_user_name')
-    input = $stdin.gets.chomp
-    input == COMMANDS[:exit] ? (raise Errors::StopGameError) : input
-  end
+        puts(I18n.t('registration_state.invalid_user_name'))
+      end
+    end
 
-  def ask_difficulty
-    puts I18n.t('registration_state.ask_difficulty', easy: DIFFICULTIES[:easy], medium: DIFFICULTIES[:medium], hard: DIFFICULTIES[:hell])
-    input = $stdin.gets.chomp.downcase
-    input == COMMANDS[:exit] ? (raise Errors::StopGameError) : input
+    def ask_difficulty
+      loop do
+        puts I18n.t('registration_state.difficulty_message', difficulties: difficulties.keys.join(', '))
+        @difficulty = difficulties[user_input]
+        return unless @difficulty.nil?
+
+        puts(I18n.t('registration_state.invalid_difficulty_message'))
+      end
+    end
+
+    def difficulties
+      { I18n.t('registration_state.easy_difficulty') => CodebrekerManfly::Difficulty.difficulties(:easy),
+        I18n.t('registration_state.medium_difficulty') => CodebrekerManfly::Difficulty.difficulties(:medium),
+        I18n.t('registration_state.hell_difficulty') => CodebrekerManfly::Difficulty.difficulties(:hell) }
+    end
   end
-end
 end
