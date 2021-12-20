@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.0'
 
-gem 'codebreker_manfly', '~> 0.1.2'
+gem 'codebreaker_manfly'
 gem 'i18n'
 
 group :development, :test do
