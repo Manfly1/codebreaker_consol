@@ -4,7 +4,7 @@ RSpec.describe States::RegistrationState do
   describe '#interact' do
     subject(:state) { described_class.new }
 
-    let(:context) { instance_double(States::ConsoleState) }
+    let(:context) { instance_double(Console) }
     let(:game) { instance_double(CodebrekerManfly::Game) }
 
     let(:valid_name) { FFaker::Name.first_name }

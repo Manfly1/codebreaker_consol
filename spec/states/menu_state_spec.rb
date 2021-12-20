@@ -3,7 +3,7 @@
 RSpec.describe States::MenuState do
   subject(:state) { described_class.new }
 
-  let(:context) { instance_double(States::ConsoleState) }
+  let(:context) { instance_double(Console) }
 
   before do
     allow(context).to receive(:change_state_to)

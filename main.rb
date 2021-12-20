@@ -2,5 +2,5 @@
 
 require_relative 'lib/bootstrap'
 
-console = States::ConsoleState.new
+console = Console.new
 console.action
