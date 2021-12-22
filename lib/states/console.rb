@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module States
-  class ConsoleState
+  class Console
     attr_accessor :game
 
     def action

@@ -3,7 +3,7 @@
 RSpec.describe States::MenuState do
   subject(:state) { described_class.new }
 
-  let(:context) { instance_double(States::ConsoleState) }
+  let(:context) { instance_double(States::Console) }
 
   before do
     allow(context).to receive(:change_state_to)
@@ -13,7 +13,7 @@ RSpec.describe States::MenuState do
   describe '#interact' do
     let(:registration_state) { instance_double(States::RegistrationState) }
 
-    it 'puts message to ConsoleState' do
+    it 'puts message to Console' do
       allow(state).to receive(:user_input).and_return('start')
       expect { state.interact }.to output(/#{I18n.t('menu_state.introduction')}/).to_stdout
     end
