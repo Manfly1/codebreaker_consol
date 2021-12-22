@@ -3,7 +3,7 @@
 RSpec.describe States::FinalState do
   subject(:state) { described_class.new }
 
-  let(:context) { instance_double(Console) }
+  let(:context) { instance_double(States::ConsoleState) }
   let(:game) { instance_double(CodebrekerManfly::Game) }
   let(:code) { [1, 2, 3, 4] }
 

@@ -2,8 +2,8 @@
 
 module States
   class BaseState
-    EXIT_COMMAND = I18n.t('base_state.exit_command')
-    YES = I18n.t('base_state.apply')
+    EXIT_COMMAND = 'exit'
+    YES = 'y'
     attr_accessor :context
 
     def interact

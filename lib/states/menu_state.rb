@@ -2,13 +2,9 @@
 
 module States
   class MenuState < BaseState
-    START_COMMAND = I18n.t('menu_state.start_command')
-    RULES_COMMAND = I18n.t('menu_state.rules_command')
-    STATS_COMMAND = I18n.t('menu_state.stats_command')
-
     def interact
       puts(I18n.t('menu_state.introduction'))
-      puts(I18n.t('menu_state.game_menu_options', start: START_COMMAND, rules: RULES_COMMAND, stats: STATS_COMMAND,
+      puts(I18n.t('menu_state.game_menu_options', start: 'start', rules: 'rules', stats: 'stats',
                                                   exit: EXIT_COMMAND))
       command = user_input
       context.change_state_to(manage_command(command))
@@ -18,9 +14,9 @@ module States
 
     def manage_command(command)
       case command
-      when START_COMMAND then return States::RegistrationState.new
-      when RULES_COMMAND then puts(I18n.t('menu_state.rules'))
-      when STATS_COMMAND then put_statistic
+      when 'start' then return States::RegistrationState.new
+      when 'rules' then puts(I18n.t('menu_state.rules'))
+      when 'stats' then print_statistic
       else
         puts I18n.t('base_state.wrong_command')
       end
@@ -28,7 +24,7 @@ module States
       self
     end
 
-    def put_statistic
+    def print_statistic
       puts(I18n.t('menu_state.stats_title'))
 
       stats = CodebrekerManfly::Game.user_statistic

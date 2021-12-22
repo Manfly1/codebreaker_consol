@@ -1,8 +1,6 @@
 en:
   base_state:
     exit: "\nBye-bye"
-    exit_command: "exit"
-    apply: 'y'
     wrong_command: "\nYou have passed unexpected command. Please choose one from listed commands\n"
 
   menu_state:
@@ -31,9 +29,6 @@ en:
       Attempts used: %{used_attempts}
       Hints total: %{total_hints}
       Hints used: %{used_hints} 
-    start_command: 'start'
-    rules_command: 'rules'
-    stats_command: 'stats'
     stats_title: "\nUser statistics\n\n"
     stats_empty: "No saved statistic now\n\n"
     game_menu_options: |+ 
